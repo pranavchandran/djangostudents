@@ -1,10 +1,21 @@
 from django.shortcuts import render,redirect
 from .forms import Form1
 from .models import Signup
+import datetime
 
 # Create your views here.
 def one(request):
-    return render(request, 'hello.html')
+    dt = datetime.datetime.now()
+    return render(request, 'index.html',{'date' : dt})
+
+def sum(request):
+    c=""
+    if request.method == 'POST':
+        a = request.POST.get('num1')
+        b = request.POST.get('num2')
+        c = int(a) + int(b)
+
+    return render(request,'sum.html',{'result' : c})
 
 def two(request):
     msg = ""
@@ -17,18 +28,20 @@ def two(request):
     return render(request, 'hello.html',{'form' : form,'msg' : msg,'name': 'Pranav'})
 
 def step(request):
-    data = Signup.objects.all()
-    return render(request, 'step.html',{'data':data})
+     data = Signup.objects.all()
+     return render(request, 'step.html',{'data':data})
 
-def three(request):
+#def three(request):
 
-    return render(request, 'step.html')
+ #   return render(request, 'step.html')
 
 def delete(request, id):
     abc = Signup.objects.get(id=id)
     abc.delete()
+    return redirect(step)
 
-    return redirect(three)
+def four(request):
+    return render(request, 'index.html')
 
 
 
